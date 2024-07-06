@@ -1,0 +1,62 @@
+.overflow-hidden {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.border-b {
+    border-bottom: 1px solid #ddd;
+    list-style-type: none;
+}
+  
+.flex {
+    display: flex;
+}
+  
+.justify-between {
+    justify-content: space-between;
+}
+  
+.items-center {
+    align-items: center;
+}
+  
+.p-4 {
+    padding: 1rem;
+}
+  
+.p-2 {
+    padding: 0.5rem;
+}
+  
+.pb-4 {
+    padding-bottom: 1rem;
+}
+  
+.transition-height {
+    transition: max-height 0.3s ease;
+}
+
+.transition-transform {
+    transition: transform 0.3s ease;
+}
+  
+.transition-all {
+    transition: height 0.3s ease;
+}
+  
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+  
+.accordion-content {
+    overflow: hidden;
+    transition: height 0.3s ease;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}

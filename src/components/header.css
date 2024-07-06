@@ -1,0 +1,101 @@
+.header {
+    background-color: black;
+    width: 100%;
+    padding: 10px 30px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+}
+
+.header-title{
+    color: #000000;
+}
+
+.App-logo-link {
+    text-decoration: none; 
+    cursor: pointer; 
+}
+
+.App-logo {
+    background-image: url(../assets/logo2.png);
+    background-size: cover;
+    background-position: left;
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 85px;
+    object-fit: cover;
+    margin: 0px;
+    padding: 0px;
+    animation: none;
+}
+
+/* CSS for button: credit ~ getcssscan.com */
+.button-48 {
+  appearance: none;
+  background-color: #c5c3c3;
+  border-width: 0;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Clarkson,Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1em;
+  margin: 0;
+  margin-left: 10px;
+  opacity: 1;
+  outline: 0;
+  padding: 1em 1.5em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-rendering: geometricprecision;
+  text-transform: uppercase;
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.button-48:before {
+  animation: opacityFallbackOut .5s step-end forwards;
+  backface-visibility: hidden;
+  background-color: #EBEBEB;
+  clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateZ(0);
+  transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+  width: 100%;
+}
+
+.button-48:hover:before {
+  animation: opacityFallbackIn 0s step-start forwards;
+  clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.button-48:after {
+  background-color: #494343;
+}
+
+.button-48 span {
+  z-index: 1;
+  position: relative;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+}
