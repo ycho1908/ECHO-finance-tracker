@@ -63,7 +63,8 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: baseline;
-  white-space: nowrap;
+  width: 110px;
+  text-align: center;
 }
 
 .button-48:before {

@@ -60,6 +60,9 @@ function Header() {
                     <button className="button-48" role="button" onClick={handleLogout}>
                         <span className="text">Log out</span>
                     </button>
+                    <Link to="/profile" className="button-48" role="button">
+                        <span className="text">Profile</span>
+                    </Link>
                     <Link to="/contact" className="button-48" role="button">
                         <span className="text">Contact</span>
                     </Link>
