@@ -22,14 +22,15 @@
 }
 
 .App-logo {
-    background-image: url(../assets/logo2.png);
+    background-image: url(../assets/logo2_2.png);
     background-size: cover;
     background-position: left;
     background-repeat: no-repeat;
-    width: 200px;
+    width: 150px;
     height: 85px;
     object-fit: cover;
     margin: 0px;
+    margin-left: -40px;
     padding: 0px;
     animation: none;
 }

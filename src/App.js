@@ -11,15 +11,18 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { auth } from './components/firebase';
 import { Navigate, Route, Routes } from 'react-router';
+import NavBar from './components/header2';
 
 function App() {
   const [user, setUser] = useState(null);
 
   return (
     <div className="App-page">
-      <Header/>
+      {/* <Header/> */}
+      <NavBar/>
       <Routes>
         <Route path="/" element={user ? <Navigate to= "/profile" /> :<Main/>}/>
+        <Route path="/main" element={<Main/>}/>
         <Route path="/contact" element={<Contact />}/>
         <Route path="/login" element={user ? <Navigate to="/profile"/> : <Login/>} />
         <Route path="/register" element={user ? <Navigate to = "/profile"/> : <Register/>}/>
