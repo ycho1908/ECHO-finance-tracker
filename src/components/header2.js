@@ -58,6 +58,7 @@ function NavBar() {
                             id="nav-dropdown-dark-example"
                             title="Menu"
                             menuVarient="dark">
+                            {loggedIn && (<NavDropdown.Item href="/profile">Profile</NavDropdown.Item>) }
                             <NavDropdown.Item href="/about">About</NavDropdown.Item>
                             <NavDropdown.Item href="/contact">Contact</NavDropdown.Item>
                             <NavDropdown.Divider/>

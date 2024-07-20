@@ -59,7 +59,10 @@ html, body {
 }
 
 
-.profile-box {
+/* .profile-box {
+  position: fixed;
+  top: 130px;
+  left: 20px;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -83,7 +86,7 @@ html, body {
 
 .profile-box p {
   color: #3e3838;
-}
+} */
 
 .span {
   display: flex;
