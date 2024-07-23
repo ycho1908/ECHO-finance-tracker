@@ -34,7 +34,7 @@ Enim tortor at auctor urna nunc id cursus. Consequat ac felis donec et odio pell
       </Accordian>
       <br/>
       <br/>
-      <p style={{padding: '0 250px'}}>Have any other questions? Feel free to reach out to use at: <a href="mailto:yehyeoncho@gmail.com">yehyeoncho@gmail.com</a></p>
+      <p style={{padding: '0 250px'}}>Have any other questions? Feel free to reach out to us at: <a href="mailto:yehyeoncho@gmail.com">yehyeoncho@gmail.com</a></p>
       </div>
   );
 }

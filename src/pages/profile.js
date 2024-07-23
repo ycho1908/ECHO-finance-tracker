@@ -1,7 +1,7 @@
-// import '../App.css';
+import '../App.css';
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
-import { doc, getDoc, getDocs, collection, addDoc, updateDoc, deleteDoc } from "@firebase/firestore";
+import { doc, getDoc, getDocs, collection, addDoc, query, where, updateDoc, deleteDoc } from "@firebase/firestore";
 import { Navigate } from 'react-router';
 
 
@@ -16,10 +16,23 @@ function Profile() {
     const [ title , setTitle ] = useState("");
     const [ date, setDate ] = useState("");
     const [ description, setDescription ] = useState("");
-    const [ journal, setJournal ] = useState([]);
+    const [ journalLog, setJournalLog ] = useState([]);
     const [ uid, setUID ] = useState("");
     const [ isPublic , setIsPublic ] = useState(false);
 
+    // for sorting data
+    const[sortedField, setSortedField] = React.useState(null);
+    const[sortTitle, setSortTitle] = useState('desc');
+    const[sortDesc, setSortDesc] = useState('desc');
+    const[sortDate, setSortDate] = useState('desc');
+    const[sortStatus, setSortStatus] = useState('desc');
+
+    const[searchTitle, setSearchTitle] = useState('');
+    const[searchDesc, setSearchDesc] = useState('');
+    const[searchDate, setSearchDate] = useState('');
+    const[searchStatus, setSearchStatus] = useState('');
+
+    // fetching user login and journal data
     const fetchUserData = async() => {
         auth.onAuthStateChanged(async (user) => {
             console.log(user);
@@ -33,8 +46,9 @@ function Profile() {
                     setUserDetails(docSnap.data());
                     console.log(docSnap.data());
                     const journalRef = collection(db, "Journal");
-                    const data = await getDocs(journalRef);
-                    setJournal(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+                    const filteredJournal = query(journalRef, where("UID", "==", user.uid));
+                    const journalSnap = await getDocs(filteredJournal);
+                    setJournalLog(journalSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
                 }
                 else {
                     console.log("User is not logged in");
@@ -68,13 +82,48 @@ function Profile() {
         }
     }
 
-    // const deleteUser = async (id) => {
-    //     const userDoc = doc(db, "backenddata", id)
-    //     console.log("Got the Document ID")
-    //     await deleteDoc(userDoc)
-    //     console.log("Deleted the Document")
-    //     window.location.reload()
-    // }
+    // to sort the table of journals
+    const sortedData = journalLog.slice().sort((a, b) => {
+        if (!sortedField) 
+            return 0;
+        if (a[sortedField] < b[sortedField]) {
+            if (sortedField === 'Title') 
+                return sortTitle === 'asc' ? -1 : 1;
+            else if (sortedField === 'Description') 
+                return sortDesc === 'asc' ? -1 : 1;
+            else if (sortedField === 'Time') 
+                return sortDate === 'asc' ? -1 : 1;
+            else if (sortedField === 'Public') 
+                return sortStatus === 'asc' ? -1 : 1;
+        }
+        if (a[sortedField] > b[sortedField]) {
+            if (sortedField === 'Title') 
+                return sortTitle === 'asc' ? 1 : -1;
+            else if (sortedField === 'Description') 
+                return sortDesc === 'asc' ? 1 : -1;
+            else if (sortedField === 'Time') 
+                return sortDate === 'asc' ? 1 : -1;
+            else if (sortedField === 'Public') 
+                return sortStatus === 'asc' ? 1 : -1;
+        }
+        return 0;
+    });
+
+    const clickSort = (field) => {
+        console.log(sortedField, field);
+        if (sortedField !== field) {
+            setSortedField(field);
+        } 
+        if (field === 'Title') 
+            sortTitle === 'asc' ? setSortTitle('desc') : setSortTitle('asc');
+        else if (field === 'Description') 
+            sortDesc === 'asc' ? setSortDesc('desc') : setSortDesc('asc');
+        else if (field === 'Time') 
+            sortDate === 'asc' ? setSortDate('desc') : setSortDate('asc');
+        else if (field === 'Public') 
+            sortStatus === 'asc' ? setSortStatus('desc') : setSortStatus('asc');
+    };
+
 
     return (
         <div style={{paddingTop: '30px', flexDirection: 'row', width: '100vw'}}>
@@ -103,11 +152,121 @@ function Profile() {
             <Navigate to = "/login"/> 
             )}
 
-            <div style={{ float: 'left', width: '60%', marginTop: '20px', padding: '20px'}}>
-                <h2>Column</h2>
-                <p>Some text..</p>
+            {/* TABLE w/SORTING AND SEARCHING */}
+            <div style={{ float: 'left', width: '60%', marginTop: '20px', marginLeft: '30px', padding: '20px'}}>
+                <h2>Your ECHOs</h2>
+                <br/>
+                {journalLog.length === 0 ? (
+                    <p>No journal entries found.</p>
+                ) : (
+                    <>
+                    {/* SEARCH */}
+                    <div style={{ display: 'flex', alignItems: 'center'}}>
+                        <div style={{ marginLeft: '5px', marginRight: '5px'}}>
+                            <input
+                                type="text"
+                                value={searchTitle}
+                                onChange={(e) => setSearchTitle(e.target.value)}
+                                placeholder="Search by Title"
+                                style={{ width: '100%'}}
+                            />
+                        </div>
+                        <div style={{ marginLeft: '5px', marginRight: '5px'}}>
+                            <input
+                                type="text"
+                                value={searchDesc}
+                                onChange={(e) => setSearchDesc(e.target.value)}
+                                placeholder="Search by Description"
+                                style={{ width: '100%'}}
+                            />
+                        </div>
+                        <div style={{ marginLeft: '5px', marginRight: '5px'}}>
+                            <input
+                                type="date"
+                                value={searchDate}
+                                onChange={(e) => setSearchDate(e.target.value)}
+                                placeholder="Search by Date"
+                            />
+                        </div>
+                        <div style={{ marginLeft: '5px', marginRight: '5px'}}>
+                            <input
+                                type="text"
+                                value={searchStatus}
+                                onChange={(e) => setSearchStatus(e.target.value)}
+                                placeholder="Search by Status"
+                                style={{ width: '100%'}}
+                            />
+                        </div>
+                    </div>
+                    <br/>
+                    {/* SORT */}
+                    <table style={{width: '100%'}}>
+                        <thead>
+                            <tr>
+                                <th style={{ border: '1px solid white' }}>
+                                <span onClick={() => clickSort('Title')}>
+                                    Title
+                                    <button type="button" style={{ border: 'none', backgroundColor: 'transparent', color: 'white'}}>
+                                        {sortTitle === 'asc' ? '▲' : '▼'}
+                                    </button>
+                                </span>
+                                </th>
+                                <th style={{ border: '1px solid white' }}>
+                                <span onClick={() => clickSort('Description')}>
+                                    Description
+                                    <button type="button" style={{ border: 'none', backgroundColor: 'transparent', color: 'white'}}>
+                                        {sortDesc === 'asc' ? '▲' : '▼'}
+                                    </button>
+                                </span>
+                                </th>
+                                <th style={{ border: '1px solid white' }}>
+                                <span onClick={() => clickSort('Time')}>
+                                    Date
+                                    <button type="button" style={{ border: 'none', backgroundColor: 'transparent', color: 'white'}}>
+                                        {sortDate === 'asc' ? '▲' : '▼'}
+                                    </button>
+                                </span>
+                                </th>
+                                <th style={{ border: '1px solid white' }}>
+                                <span onClick={() => clickSort('Public')}>
+                                    Status
+                                    <button type="button" style={{ border: 'none', backgroundColor: 'transparent', color: 'white'}}>
+                                        {sortStatus === 'asc' ? '▲' : '▼'}
+                                    </button>
+                                </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {sortedData.filter((journal) => {
+                            return searchTitle.toLowerCase() === '' ? journal : journal.Title.toLowerCase().includes(searchTitle);
+                        })
+                        .filter((journal) => {
+                            return searchDesc.toLowerCase() === '' ? journal : journal.Description.toLowerCase().includes(searchDesc);
+                        })
+                        .filter((journal) => {
+                            return searchDate.toLowerCase() === '' ? journal : journal.Date.toLowerCase().includes(searchDate);
+                        })
+                        .filter((journal) => {
+                            return searchStatus.toLowerCase() === '' ? journal : journal.Status.toLowerCase().includes(searchStatus);
+                        })
+                        .map((journal) => (
+
+                            <tr key={journal.id}>
+                                <td style={{ border: '1px solid white' }}>{journal.Title}</td>
+                                <td style={{ border: '1px solid white' }}>{journal.Description}</td>
+                                <td style={{ border: '1px solid white' }}>{journal.Time}</td>
+                                <td style={{ border: '1px solid white' }}>{journal.Public ? "Public" : "Private"}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    </>
+                )}
             </div>
-            <div style={{ float: 'left', width: '30%', marginTop: '20px', padding: '20px'}}>
+
+            {/* FORM: LOGGING ENTRY */}
+            <div style={{ float: 'left', width: '30%', marginTop: '20px', marginLeft: '50px', padding: '20px'}}>
                 <form onSubmit={createJournal}>
                 <h1>Log your echo</h1>
                 <br/>
