@@ -13,24 +13,27 @@ function Profile() {
     const [ loggedIn ,setLoggedIn ] = useState(true);
 
     // for journal data
-    const [ title , setTitle ] = useState("");
     const [ date, setDate ] = useState("");
     const [ description, setDescription ] = useState("");
     const [ journalLog, setJournalLog ] = useState([]);
     const [ uid, setUID ] = useState("");
     const [ isPublic , setIsPublic ] = useState(false);
+    const [ price , setPrice ] = useState(0);
+    const [ categories , setCategories ] = useState("");
 
     // for sorting data
     const[sortedField, setSortedField] = React.useState(null);
-    const[sortTitle, setSortTitle] = useState('desc');
     const[sortDesc, setSortDesc] = useState('desc');
     const[sortDate, setSortDate] = useState('desc');
     const[sortStatus, setSortStatus] = useState('desc');
+    const[sortPrice, setSortPrice] = useState('desc');
+    const[sortCategory, setSortCategory] = useState('desc');
 
-    const[searchTitle, setSearchTitle] = useState('');
     const[searchDesc, setSearchDesc] = useState('');
     const[searchDate, setSearchDate] = useState('');
     const[searchStatus, setSearchStatus] = useState('');
+    const[searchPrice, setSearchPrice] = useState('');
+    const[searchCategory, setSearchCategory] = useState('');
 
     // fetching user login and journal data
     const fetchUserData = async() => {
@@ -66,6 +69,15 @@ function Profile() {
         fetchUserData()
     },[]);
 
+    // for budget categories
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const handleSelectChange = (e) => {
+        const options = Array.from(e.target.options);
+        const selectedValues = options.filter(option => option.selected).map(option => option.value);
+        setSelectedOptions(selectedValues);
+    };
+
 
     // Journal 
 
@@ -73,7 +85,7 @@ function Profile() {
         event.preventDefault();
         try {
             const journalRef = collection(db, "Journal");
-            await addDoc(journalRef, { Title: title, Description: description, Time: date , UID: uid, Public: isPublic })
+            await addDoc(journalRef, { Description: description, Time: date , UID: uid, Public: isPublic, Price: price, Category: categories})
             console.log("added a journal");
             window.location.reload()
         }
@@ -87,24 +99,28 @@ function Profile() {
         if (!sortedField) 
             return 0;
         if (a[sortedField] < b[sortedField]) {
-            if (sortedField === 'Title') 
-                return sortTitle === 'asc' ? -1 : 1;
-            else if (sortedField === 'Description') 
+            if (sortedField === 'Description') 
                 return sortDesc === 'asc' ? -1 : 1;
             else if (sortedField === 'Time') 
                 return sortDate === 'asc' ? -1 : 1;
             else if (sortedField === 'Public') 
                 return sortStatus === 'asc' ? -1 : 1;
+            else if (sortedField === 'Price') 
+                return sortPrice === 'asc' ? -1 : 1;
+            else if (sortedField === 'Category') 
+                return sortCategory === 'asc' ? -1 : 1;
         }
         if (a[sortedField] > b[sortedField]) {
-            if (sortedField === 'Title') 
-                return sortTitle === 'asc' ? 1 : -1;
-            else if (sortedField === 'Description') 
+            if (sortedField === 'Description') 
                 return sortDesc === 'asc' ? 1 : -1;
             else if (sortedField === 'Time') 
                 return sortDate === 'asc' ? 1 : -1;
             else if (sortedField === 'Public') 
                 return sortStatus === 'asc' ? 1 : -1;
+            else if (sortedField === 'Price') 
+                return sortPrice === 'asc' ? 1 : -1;
+            else if (sortedField === 'Category') 
+                return sortCategory === 'asc' ? 1 : -1;
         }
         return 0;
     });
@@ -114,14 +130,16 @@ function Profile() {
         if (sortedField !== field) {
             setSortedField(field);
         } 
-        if (field === 'Title') 
-            sortTitle === 'asc' ? setSortTitle('desc') : setSortTitle('asc');
+        if (field === 'Category') 
+            sortCategory === 'asc' ? setSortCategory('desc') : setSortCategory('asc');
         else if (field === 'Description') 
             sortDesc === 'asc' ? setSortDesc('desc') : setSortDesc('asc');
         else if (field === 'Time') 
             sortDate === 'asc' ? setSortDate('desc') : setSortDate('asc');
         else if (field === 'Public') 
             sortStatus === 'asc' ? setSortStatus('desc') : setSortStatus('asc');
+        else if (field === 'Price')
+            sortPrice === 'asc' ? setSortPrice('desc') : setSortPrice('asc');
     };
 
 
@@ -154,20 +172,21 @@ function Profile() {
 
             {/* TABLE w/SORTING AND SEARCHING */}
             <div style={{ float: 'left', width: '60%', marginTop: '20px', marginLeft: '30px', padding: '20px'}}>
-                <h2>Your ECHOs</h2>
-                <br/>
+                <h2>Your Finance ECHOs</h2>
+                <hr/>
                 {journalLog.length === 0 ? (
                     <p>No journal entries found.</p>
                 ) : (
                     <>
                     {/* SEARCH */}
+                    <h4><em>Search Tool</em></h4>
                     <div style={{ display: 'flex', alignItems: 'center'}}>
                         <div style={{ marginLeft: '5px', marginRight: '5px'}}>
                             <input
                                 type="text"
-                                value={searchTitle}
-                                onChange={(e) => setSearchTitle(e.target.value)}
-                                placeholder="Search by Title"
+                                value={searchCategory}
+                                onChange={(e) => setSearchCategory(e.target.value)}
+                                placeholder="Category"
                                 style={{ width: '100%'}}
                             />
                         </div>
@@ -176,7 +195,7 @@ function Profile() {
                                 type="text"
                                 value={searchDesc}
                                 onChange={(e) => setSearchDesc(e.target.value)}
-                                placeholder="Search by Description"
+                                placeholder="Description"
                                 style={{ width: '100%'}}
                             />
                         </div>
@@ -185,7 +204,16 @@ function Profile() {
                                 type="date"
                                 value={searchDate}
                                 onChange={(e) => setSearchDate(e.target.value)}
-                                placeholder="Search by Date"
+                                placeholder="Date"
+                            />
+                        </div>
+                        <div style={{ marginLeft: '5px', marginRight: '5px'}}>
+                            <input
+                                type="number"
+                                value={searchPrice}
+                                onChange={(e) => setSearchPrice(e.target.value)}
+                                placeholder="Price"
+                                style={{ width: '100%'}}
                             />
                         </div>
                         <div style={{ marginLeft: '5px', marginRight: '5px'}}>
@@ -193,7 +221,7 @@ function Profile() {
                                 type="text"
                                 value={searchStatus}
                                 onChange={(e) => setSearchStatus(e.target.value)}
-                                placeholder="Search by Status"
+                                placeholder="Status"
                                 style={{ width: '100%'}}
                             />
                         </div>
@@ -204,10 +232,10 @@ function Profile() {
                         <thead>
                             <tr>
                                 <th style={{ border: '1px solid white' }}>
-                                <span onClick={() => clickSort('Title')}>
-                                    Title
+                                <span onClick={() => clickSort('Category')}>
+                                    Category
                                     <button type="button" style={{ border: 'none', backgroundColor: 'transparent', color: 'white'}}>
-                                        {sortTitle === 'asc' ? '▲' : '▼'}
+                                        {sortCategory === 'asc' ? '▲' : '▼'}
                                     </button>
                                 </span>
                                 </th>
@@ -228,6 +256,14 @@ function Profile() {
                                 </span>
                                 </th>
                                 <th style={{ border: '1px solid white' }}>
+                                <span onClick={() => clickSort('Price')}>
+                                    Price
+                                    <button type="button" style={{ border: 'none', backgroundColor: 'transparent', color: 'white'}}>
+                                        {sortStatus === 'asc' ? '▲' : '▼'}
+                                    </button>
+                                </span>
+                                </th>
+                                <th style={{ border: '1px solid white' }}>
                                 <span onClick={() => clickSort('Public')}>
                                     Status
                                     <button type="button" style={{ border: 'none', backgroundColor: 'transparent', color: 'white'}}>
@@ -239,10 +275,10 @@ function Profile() {
                         </thead>
                         <tbody>
                         {sortedData.filter((journal) => {
-                            return searchTitle.toLowerCase() === '' ? journal : journal.Title.toLowerCase().includes(searchTitle);
+                            return searchCategory.toLowerCase() === '' ? journal : journal.Category.toLowerCase().includes(searchCategory.toLowerCase());
                         })
                         .filter((journal) => {
-                            return searchDesc.toLowerCase() === '' ? journal : journal.Description.toLowerCase().includes(searchDesc);
+                            return searchDesc.toLowerCase() === '' ? journal : journal.Description.toLowerCase().includes(searchDesc.toLowerCase());
                         })
                         .filter((journal) => {
                             return searchDate.toLowerCase() === '' ? journal : journal.Date.toLowerCase().includes(searchDate);
@@ -250,12 +286,17 @@ function Profile() {
                         .filter((journal) => {
                             return searchStatus.toLowerCase() === '' ? journal : journal.Status.toLowerCase().includes(searchStatus);
                         })
+                        .filter((journal) => {
+                            const searchPriceNumber = Number(searchPrice);
+                            return searchPrice === '' ? journal : journal.Price === searchPriceNumber;
+                        })
                         .map((journal) => (
 
                             <tr key={journal.id}>
-                                <td style={{ border: '1px solid white' }}>{journal.Title}</td>
+                                <td style={{ border: '1px solid white' }}>{journal.Category}</td>
                                 <td style={{ border: '1px solid white' }}>{journal.Description}</td>
                                 <td style={{ border: '1px solid white' }}>{journal.Time}</td>
+                                <td style={{ border: '1px solid white' }}>{journal.Price}</td>
                                 <td style={{ border: '1px solid white' }}>{journal.Public ? "Public" : "Private"}</td>
                             </tr>
                         ))}
@@ -268,20 +309,10 @@ function Profile() {
             {/* FORM: LOGGING ENTRY */}
             <div style={{ float: 'left', width: '30%', marginTop: '20px', marginLeft: '50px', padding: '20px'}}>
                 <form onSubmit={createJournal}>
-                <h1>Log your echo</h1>
+                <h2>Log your finance echo</h2>
                 <br/>
 
                 <div>
-                    <label>Title</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <br/>
-
                     <label>Date</label>
                     <input
                         type="date"
@@ -300,6 +331,39 @@ function Profile() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
+                    <br/>
+
+                    <label>Price</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Enter price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                    />
+                    <br/>
+
+                    <label>Select Categories</label>
+                    <select
+                        multiple
+                        className="form-control"
+                        value={selectedOptions}
+                        onChange={handleSelectChange}
+                    >
+                        <option value="Housing">Housing</option>
+                        <option value="Food">Food</option>
+                        <option value="Transporation">Transportation</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Leisure">Leisure</option>
+                        <option value="Education">Education</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select>
+
+                    <div>
+                        <p>Selected Options: {selectedOptions.join(', ')}</p>
+                    </div>
+                    <br/>
 
                     <input
                         type="checkbox"

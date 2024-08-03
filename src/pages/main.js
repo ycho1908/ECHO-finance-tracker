@@ -17,7 +17,7 @@ function Main() {
                 style={{fontSize: '150px', fontWeight: "bold" }}>
                 Echo.
             </MovingComponent>
-            <p className="main-sub-text" style={{fontSize: '100px', fontStyle: "italic" }}>Echo your life</p>
+            <p className="main-sub-text" style={{fontSize: '50px', fontStyle: "italic" }}>Echo your life <br/> Your personal finance journal</p>
         </div>
     )
 }
