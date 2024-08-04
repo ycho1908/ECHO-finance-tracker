@@ -29,13 +29,19 @@ function Profile() {
     const[sortPrice, setSortPrice] = useState('desc');
     const[sortCategory, setSortCategory] = useState('desc');
 
+    // for searching data
     const[searchDesc, setSearchDesc] = useState('');
     const[searchDate, setSearchDate] = useState('');
     const[searchStatus, setSearchStatus] = useState('');
     const[searchPrice, setSearchPrice] = useState('');
     const[searchCategory, setSearchCategory] = useState('');
 
-    // fetching user login and journal data
+    // for budget data
+    const [ budgetLog, setBudgetLog ] = useState([]);
+    const [ goal, setGoal ] = useState(0);
+    const [ current, setCurrent ] = useState(0); 
+
+    // fetching user login and journal & budget data
     const fetchUserData = async() => {
         auth.onAuthStateChanged(async (user) => {
             console.log(user);
@@ -48,10 +54,21 @@ function Profile() {
                     setUID(user.uid);
                     setUserDetails(docSnap.data());
                     console.log(docSnap.data());
+
                     const journalRef = collection(db, "Journal");
                     const filteredJournal = query(journalRef, where("UID", "==", user.uid));
                     const journalSnap = await getDocs(filteredJournal);
                     setJournalLog(journalSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+                    const currentExpense = journalSnap.docs.reduce((total, doc) => {
+                        const data = doc.data();
+                        return total + (parseFloat(data.Price) || 0);
+                    }, 0);
+                    setCurrent(parseFloat(currentExpense.toFixed(2)))
+
+                    const budgetRef = collection(db, "Budget");
+                    const filteredBudget = query(budgetRef, where("UID", "==", user.uid));
+                    const budgetSnap = await getDocs(filteredBudget);
+                    setBudgetLog(budgetSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
                 }
                 else {
                     console.log("User is not logged in");
@@ -76,11 +93,25 @@ function Profile() {
         const options = Array.from(e.target.options);
         const selectedValues = options.filter(option => option.selected).map(option => option.value);
         setSelectedOptions(selectedValues);
+        setCategories(selectedValues);
     };
+
+    // Budget
+    const createBudget = async (event) => {
+        event.preventDefault();
+        try {
+            const budgetRef = collection(db, "Budget");
+            await addDoc(budgetRef, { CurrentExpense: current, GoalExpense: goal , UID: uid })
+            console.log("set a budget goal");
+            window.location.reload()
+        }
+        catch (error) {
+            console.error("Error creating a budget goal: ", error);
+        }
+    }
 
 
     // Journal 
-
     const createJournal = async (event) => {
         event.preventDefault();
         try {
@@ -148,21 +179,54 @@ function Profile() {
             {/* flexDirection: "column", alignItems: "center", paddingTop: "20px" */}
             {loggedIn ? (userDetails ? (
                 <>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <img
-                        src={userDetails.photo}
-                        width={'10%'}
-                        style={{ borderRadius: '50%',
-                            border: '5px solid white',
-                        }}
-                    />
-                </div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <img
+                            src={userDetails.photo}
+                            width={'10%'}
+                            style={{ borderRadius: '50%',
+                                border: '5px solid white',
+                            }}
+                        />
+                    </div>
                     <br/>
                     <h3 style={{fontWeight: 'bold', top: '120px'}}>Welcome {userDetails.firstName}</h3>
                     <div>
                         <p>Email: {userDetails.email}</p>
                         <p>Name: {userDetails.firstName} {userDetails.lastName}</p>
                     </div>
+                    <br/>
+                    <hr/>
+                    {budgetLog.length === 0 ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+                            <form onSubmit={createBudget}>
+                            <h2>Enter your budget</h2>
+                            <br/>
+            
+                            <div>
+                                <label>Goal Expense</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter your goal expense"
+                                    value={goal}
+                                    onChange={(e) => setGoal(e.target.value)}
+                                />
+                                <br/>
+                            </div>
+
+                            <div className="d-grid justify-content-center">
+                                <button className="button-11" type="submit">Submit</button>
+                            </div>
+                            </form>
+                            <hr/>
+                        </div>
+                    ) : (
+                        <div style={{ flexDirection: 'row', width: '100vw' }}>
+                            <h3>You've spent ${budgetLog[0].CurrentExpense}</h3>
+                            <h3>Your goal was to spend ${budgetLog[0].GoalExpense}</h3>
+                            <hr/>
+                        </div>
+                    )}
                 </>
             ) : (
                 <p>Loading the user information...</p>
@@ -290,8 +354,8 @@ function Profile() {
                             const searchPriceNumber = Number(searchPrice);
                             return searchPrice === '' ? journal : journal.Price === searchPriceNumber;
                         })
+                        .filter((journal) => journal.UID === uid)
                         .map((journal) => (
-
                             <tr key={journal.id}>
                                 <td style={{ border: '1px solid white' }}>{journal.Category}</td>
                                 <td style={{ border: '1px solid white' }}>{journal.Description}</td>
