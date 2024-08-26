@@ -4,6 +4,19 @@ html, body {
   padding: 0;
 }
 
+.Main-no-styles {
+  /* should be nothing applied */
+  text-align: center
+}
+
+.spline-container {
+  height: 100vh; /* Full viewport height */
+  width: 100vw;  /* Full viewport width */
+  min-height: 100vh;
+  position: relative; /* For positioning child elements */
+}
+
+
 .App-page{
   text-align: center;
   background-color: black;

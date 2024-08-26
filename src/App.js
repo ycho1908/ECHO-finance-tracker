@@ -2,7 +2,7 @@ import './App.css';
 import About from './pages/about';
 import Contact from './pages/contact';
 import React, { useState } from 'react';
-import Header from './components/header';
+// import Header from './components/header';
 import Main from './pages/main';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -10,16 +10,19 @@ import Profile from './pages/profile';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { auth } from './components/firebase';
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NavBar from './components/header2';
 
 function App() {
   const [user, setUser] = useState(null);
+  const location = useLocation();
+
+  const isMainPage = location.pathname === '/' || location.pathname === '/main';
 
   return (
-    <div className="App-page">
+    <div className={isMainPage ? 'Main-no-styles' : 'App-page'}>
       {/* <Header/> */}
-      <NavBar/>
+      {!isMainPage && <NavBar />}
       <Routes>
         <Route path="/" element={user ? <Navigate to= "/profile" /> :<Main/>}/>
         <Route path="/main" element={<Main/>}/>
@@ -29,7 +32,7 @@ function App() {
         <Route path="/profile" element={user ? <Navigate to = "/login"/> : <Profile/>}/>
         <Route path="/about" element={<About/>}/>
       </Routes>
-      <ToastContainer/>
+      {!isMainPage && <ToastContainer />}
     </div>
   );
 }
