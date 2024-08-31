@@ -12,27 +12,29 @@ import 'react-toastify/dist/ReactToastify.css';
 // import { auth } from './components/firebase';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NavBar from './components/header2';
+import Nav from './pages/nav';
 
 function App() {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
-  const isMainPage = location.pathname === '/' || location.pathname === '/main';
+  const isPageWOStyle = location.pathname === '/' || location.pathname === '/main' || location.pathname === '/nav';
 
   return (
-    <div className={isMainPage ? 'Main-no-styles' : 'App-page'}>
+    <div className={isPageWOStyle ? 'Main-no-styles' : 'App-page'}>
       {/* <Header/> */}
-      {!isMainPage && <NavBar />}
+      {!isPageWOStyle && <NavBar />}
       <Routes>
         <Route path="/" element={user ? <Navigate to= "/profile" /> :<Main/>}/>
         <Route path="/main" element={<Main/>}/>
+        <Route path="/nav" element={<Nav />} />
         <Route path="/contact" element={<Contact />}/>
         <Route path="/login" element={user ? <Navigate to="/profile"/> : <Login/>} />
         <Route path="/register" element={user ? <Navigate to = "/profile"/> : <Register/>}/>
         <Route path="/profile" element={user ? <Navigate to = "/login"/> : <Profile/>}/>
         <Route path="/about" element={<About/>}/>
       </Routes>
-      {!isMainPage && <ToastContainer />}
+      {!isPageWOStyle && <ToastContainer />}
     </div>
   );
 }

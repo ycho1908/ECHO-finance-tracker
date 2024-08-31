@@ -1,3 +1,4 @@
+// NOT IN USE
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import './header.css';
 import { useEffect, useState } from 'react';
@@ -48,7 +49,7 @@ function NavBar() {
     }
 
     return (
-        <Navbar variant="dark" bg="dark" expand="lg" className="header">
+        <Navbar variant="dark" backgroundcolor='black' expand="lg" className="header">
             <Container fluid>
                 <Navbar.Brand href="/main" className="App-logo" />
                 <Navbar.Toggle aria-controls="navbar-dark-example"/>

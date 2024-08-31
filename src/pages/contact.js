@@ -1,10 +1,18 @@
 import '../App.css';
 import React from 'react';
+import Spline from '@splinetool/react-spline';
 
 function Contact() {
   return (
     <div>
-      <h1 style={{padding: "0 45px", color: 'white'}}>Contact info</h1>
+      <p>
+        Here is my personal page! <a href="https://ycho1908.github.io/personal_page/" style={{ color: 'white', textDecoration: 'underline' }}> https://ycho1908.github.io/personal_page/ </a>
+        <br/>
+        Feel free to contact me through email or LinkedIn and check out my github!
+        <br/>
+      </p>
+      <Spline scene="https://prod.spline.design/fg-Sy3mBniEBiZVL/scene.splinecode" />
+
     </div>
   );
 }

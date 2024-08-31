@@ -50,7 +50,7 @@ function Header() {
 
 
     return (
-        <header className="header">
+        <header className="header" backgroundcolor='black'>
             <Link to="/" className="App-logo-link">
                 <div className="App-logo"></div>
             </Link>
