@@ -53,6 +53,7 @@ export default function Nav() {
             <button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={() => navigate('/about')}>About</button>
             <button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={() => navigate('/contact')}>Contact</button>
             {loggedIn && (<button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={() => navigate('/profile')}>Profile</button>) }
+            {loggedIn && (<button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={() => navigate('/community')}>Community</button>) }
             {loggedIn && (<button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={handleLogout}>Logout</button>) }
             {!loggedIn && (<button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={() => navigate('/login')}>Login</button>) }
         </div>

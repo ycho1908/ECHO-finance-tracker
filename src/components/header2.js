@@ -4,10 +4,12 @@ import './header.css';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import { useLocation } from 'react-router-dom';
 
 function NavBar() {
     // to prevent already logged in user to access login page
     const [ loggedIn ,setLoggedIn ] = useState(false);
+    const location = useLocation();
 
     const fetchUserData = async() => {
         auth.onAuthStateChanged(async (user) => {
@@ -48,6 +50,8 @@ function NavBar() {
         }
     }
 
+    const isProfilePage = location.pathname === '/profile';
+
     return (
         <Navbar variant="dark" backgroundcolor='black' expand="lg" className="header">
             <Container fluid>
@@ -67,6 +71,12 @@ function NavBar() {
                             {loggedIn && (<NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>) }
                             {!loggedIn && (<NavDropdown.Item href="/login">Login</NavDropdown.Item>) }
                         </NavDropdown>
+
+                        {isProfilePage && (
+                        <>
+                            <Nav.Link href="/settings" className="ms-3">Update Profile</Nav.Link>
+                        </>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

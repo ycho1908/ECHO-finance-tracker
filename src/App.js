@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NavBar from './components/header2';
 import Nav from './pages/nav';
+import Settings from './pages/settings';
+import Community from './pages/community';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,6 +34,8 @@ function App() {
         <Route path="/login" element={user ? <Navigate to="/profile"/> : <Login/>} />
         <Route path="/register" element={user ? <Navigate to = "/profile"/> : <Register/>}/>
         <Route path="/profile" element={user ? <Navigate to = "/login"/> : <Profile/>}/>
+        <Route path="/settings" element={user ? <Navigate to = "/login"/> : <Settings/>}/>
+        <Route path="/community" element={user ? <Navigate to = "/login"/> : <Community/>}/>
         <Route path="/about" element={<About/>}/>
       </Routes>
       {!isPageWOStyle && <ToastContainer />}

@@ -1,11 +1,22 @@
 import '../App.css';
 import React from 'react';
 import { Accordian, AccordianItem } from "../components/accordian";
+import Spline from '@splinetool/react-spline';
 
 function About() {
   return (
     <div>
       <br/>
+      <div style={{
+        // border: '2px solid #ddd',
+        padding: '20px',
+        width: '50%',
+        margin: '0 auto', 
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: '10px'
+      }}>
+        <Spline scene="https://prod.spline.design/SPwTJcZuLodxnAqp/scene.splinecode" />
+      </div>
       <h1 style={{ textAlign: 'center' }}>Warm welcome from Echo</h1> 
       <p style={{ padding: '0 250px', fontSize: '20px' }}>Echo is designed to become a financial tracker for an individual. You can input your goal amount of money that you would like to spend. You can log your expense to keep track of it, along with your goal displayed in your profile. This finance tracker is personalized, so you would have to log into your account, either signing up or through google.
       </p>
