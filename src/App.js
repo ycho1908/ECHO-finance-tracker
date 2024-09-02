@@ -15,6 +15,7 @@ import NavBar from './components/header2';
 import Nav from './pages/nav';
 import Settings from './pages/settings';
 import Community from './pages/community';
+import ChatBot from './pages/chatbot';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,6 +37,7 @@ function App() {
         <Route path="/profile" element={user ? <Navigate to = "/login"/> : <Profile/>}/>
         <Route path="/settings" element={user ? <Navigate to = "/login"/> : <Settings/>}/>
         <Route path="/community" element={user ? <Navigate to = "/login"/> : <Community/>}/>
+        <Route path="/chatbot" element={user ? <Navigate to = "/login"/> : <ChatBot/>}/>
         <Route path="/about" element={<About/>}/>
       </Routes>
       {!isPageWOStyle && <ToastContainer />}

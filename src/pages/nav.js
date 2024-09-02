@@ -3,6 +3,7 @@ import '../App.css';
 import { auth, db } from '../components/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 export default function Nav() {
     // to prevent already logged in user to access login page
@@ -56,6 +57,9 @@ export default function Nav() {
             {loggedIn && (<button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={() => navigate('/community')}>Community</button>) }
             {loggedIn && (<button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={handleLogout}>Logout</button>) }
             {!loggedIn && (<button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} onClick={() => navigate('/login')}>Login</button>) }
+            <div style={{ position: 'absolute', bottom: '20px', right: '20px'}}>
+                <ContactSupportIcon sx={{ color: 'white', fontSize: '50px'}} onClick={() => navigate('/chatbot')}/>
+            </div>
         </div>
     );
 }

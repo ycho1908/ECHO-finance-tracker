@@ -16,18 +16,20 @@ function NavBar() {
             console.log(user);
 
             if (user) {
-                const docRef = doc(db, "Users", user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setLoggedIn(true);
-                    console.log("User is already logged in");
-                    console.log(docSnap.data());
+                try {
+                    const docRef = doc(db, "Users", user.uid);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        setLoggedIn(true);
+                        console.log("User is already logged in");
+                        console.log(docSnap.data());
+                    } else {
+                        console.log("User is not logged in");
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
                 }
-                else {
-                    console.log("User is not logged in");
-                }
-            }
-            else {
+            } else {
                 console.log("User is not logged in");
                 setLoggedIn(false);
             }
