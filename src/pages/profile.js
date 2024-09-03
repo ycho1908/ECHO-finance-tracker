@@ -10,7 +10,7 @@ function Profile() {
     const navigate = useNavigate();
 
     // to fetch whether the user is logged in or not
-    
+
     // for user data
     const [ userDetails, setUserDetails ] = useState(null);
     const [ loggedIn ,setLoggedIn ] = useState(true);
@@ -47,7 +47,7 @@ function Profile() {
     // fetching user login and journal & budget data
     const fetchUserData = async() => {
         auth.onAuthStateChanged(async (user) => {
-            console.log(user);
+            // console.log(user);
             setUserDetails(user);
 
             if (user) {
@@ -56,7 +56,7 @@ function Profile() {
                 if (docSnap.exists()) {
                     setUID(user.uid);
                     setUserDetails(docSnap.data());
-                    console.log(docSnap.data());
+                    // console.log(docSnap.data());
 
                     const journalRef = collection(db, "Journal");
                     const filteredJournal = query(journalRef, where("UID", "==", user.uid));
@@ -160,7 +160,7 @@ function Profile() {
     });
 
     const clickSort = (field) => {
-        console.log(sortedField, field);
+        // console.log(sortedField, field);
         if (sortedField !== field) {
             setSortedField(field);
         } 

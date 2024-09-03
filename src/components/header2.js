@@ -13,7 +13,7 @@ function NavBar() {
 
     const fetchUserData = async() => {
         auth.onAuthStateChanged(async (user) => {
-            console.log(user);
+            // console.log(user);
 
             if (user) {
                 try {
