@@ -2,12 +2,15 @@ import '../App.css';
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
 import { doc, getDoc, getDocs, collection, addDoc, query, where, updateDoc, deleteDoc } from "@firebase/firestore";
-import { Navigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { Box, Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
 import { Container } from 'react-bootstrap';
 
 
 function Community() {
+    const navigate = useNavigate();
+
     // to fetch whether the user is logged in or not
 
     // for user data
@@ -88,6 +91,7 @@ function Community() {
 
 
     return (
+        <>
         <Container maxWidth='md'>
         {publicLogs.length > 0 ? (
             <Box sx={{ mt: 4 }}>
@@ -161,6 +165,10 @@ function Community() {
             <Typography variant="body1">No public logs available.</Typography>
         )}
     </Container>
+    <div style={{ position: 'absolute', bottom: '20px', right: '20px'}}>
+        <ContactSupportIcon sx={{ color: 'white', fontSize: '50px'}} onClick={() => navigate('/chatbot')}/>
+    </div>
+    </>
     );
 }
 

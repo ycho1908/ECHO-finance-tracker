@@ -2,12 +2,15 @@ import '../App.css';
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
 import { doc, getDoc, getDocs, collection, addDoc, query, where, updateDoc, deleteDoc } from "@firebase/firestore";
-import { Navigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 
 function Profile() {
-    // to fetch whether the user is logged in or not
+    const navigate = useNavigate();
 
+    // to fetch whether the user is logged in or not
+    
     // for user data
     const [ userDetails, setUserDetails ] = useState(null);
     const [ loggedIn ,setLoggedIn ] = useState(true);
@@ -444,6 +447,9 @@ function Profile() {
                     </div>
                 </div>
                 </form>
+            </div>
+            <div style={{ position: 'absolute', bottom: '20px', right: '20px'}}>
+                <ContactSupportIcon sx={{ color: 'white', fontSize: '50px'}} onClick={() => navigate('/chatbot')}/>
             </div>
         </div>
     );

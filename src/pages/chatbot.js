@@ -12,7 +12,7 @@ export default function ChatBot() {
     const [loading, setLoading] = useState(false);
 
     const API_KEY = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
-    console.log('API Key:', process.env.REACT_APP_GOOGLE_GEMINI_API_KEY);
+    // console.log('API Key:', API_KEY); // to test the api keys
     const MODEL_NAME = "gemini-1.5-flash";
 
     const genAI = new GoogleGenerativeAI(API_KEY);
@@ -55,10 +55,9 @@ export default function ChatBot() {
                 });
                 setChat(newChat);
 
-                // const initialPrompt = "You are a finance tracking assistant. Please help the user with their finance-related queries. Give them advices in terms of how to manage budgets and not go over their goal of expenses.";
+                const initialPrompt = "You are a finance tracking assistant. Please help the user with their finance-related queries. Give them advices in terms of how to manage budgets and not go over their goal of expenses.";
 
-                // await chat.sendMessage(initialPrompt); 
-
+                await newChat.sendMessage(initialPrompt); 
 
                 const initialMessage = {
                     role: 'bot',
@@ -134,7 +133,13 @@ export default function ChatBot() {
     const { primary, secondary, accent, text, border } = getThemeColors();
 
     return (
-        <Box width='50vw' height='50vh' display='flex' justifyContent='center' alignItems='center'
+        <>
+        <div>
+            <h2><em>Echo financial support chat</em></h2>
+            <p>Echo's financial support chat can help you with any financial questions and advices regarding expenses.</p>
+            <br/>
+        </div>
+        <Box width='70vw' height='70vh' display='flex' justifyContent='center' alignItems='center'
             sx={{
                 backgroundColor: primary,
                 color: text,
@@ -142,7 +147,7 @@ export default function ChatBot() {
                 padding: 2
             }}
         >
-            <Stack direction='column' width='100%' maxWidth='600px' height='80%' maxHeight='700px' border={`1px solid ${border}`} borderRadius={2} p={2} spacing={2}
+            <Stack direction='column' width='100%' maxWidth='600px' height='80%' maxHeight='700px' border={`1px solid ${border}`} borderRadius={7} p={2} spacing={2}
                 sx={{
                     backgroundColor: secondary,
                     borderColor: accent,
@@ -161,7 +166,7 @@ export default function ChatBot() {
                     {
                         history.map((msg, index) => (
                             <Box key={index} display={'flex'} justifyContent={msg.role === 'bot' ? 'flex-start' : 'flex-end'}>
-                                <Box bgcolor={msg.role === 'bot' ? 'primary.main' : 'secondary.main'} color={'white'} borderRadius={2} p={2} maxWidth='75%'>
+                                <Box bgcolor={msg.role === 'bot' ? 'primary.main' : 'secondary.main'} color={'white'} borderRadius={7} p={2} maxWidth='75%'>
                                     <div>{msg.text}</div>
                                     <div style={{ fontSize: '0.75rem', marginTop: '0.5rem', textAlign:msg.role === 'bot' ? 'left' : 'right'}}>
                                         {new Date(msg.timestamp).toLocaleTimeString()}
@@ -188,7 +193,7 @@ export default function ChatBot() {
                                 input: { color: text },
                                 label: { color: text },
                                 backgroundColor: 'background.paper',
-                                borderRadius: 1,
+                                borderRadius: 5,
                             }}
                         />
                         <Button variant='contained' onClick={handleSendMessage}>Send</Button>
@@ -196,5 +201,6 @@ export default function ChatBot() {
                 </Box>
             </Stack>
         </Box>
+        </>
     );
 }
