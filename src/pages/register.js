@@ -66,7 +66,7 @@ function Register() {
     }
 
     return (
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         {!loggedIn ? (
         <form className="login-box" onSubmit={handleRegister}>
             <h1>Sign Up</h1>
@@ -79,6 +79,7 @@ function Register() {
                     placeholder="First name"
                     onChange={(e) => setFirstName(e.target.value)}
                     required
+                    style={{ width: '20vw', alignItems: 'center'}} 
                 />
             </div>
 
@@ -90,6 +91,7 @@ function Register() {
                     placeholder="Last name"
                     onChange={(e) => setLastName(e.target.value)}
                     required
+                    style={{ width: '20vw', alignItems: 'center'}} 
                 />
             </div>
 
@@ -102,6 +104,7 @@ function Register() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    style={{ width: '20vw', alignItems: 'center'}} 
                 />
             </div>
 
@@ -114,11 +117,12 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    style={{ width: '20vw', alignItems: 'center'}} 
                 />
             </div>
-
+            <br/>
             <div className="d-grid">
-                <button type="submit">Submit</button>
+                <button className="button-85" style={{marginTop: '20px', marginBottom:'20px'}} type="submit">Submit</button>
             </div>
         </form>
         ) : (
