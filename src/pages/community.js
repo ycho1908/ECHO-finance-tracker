@@ -148,7 +148,7 @@ function Community() {
                                                 boxSizing: 'border-box',
                                             }}>
                                                 <Typography variant='h6' align='center'>
-                                                    Expense: ${log.Price.toFixed(2)} <br/>
+                                                    Expense: ${parseFloat(log.Price).toFixed(2)} <br/>
                                                     Category: {log.Category} <br/>
                                                     Time: {log.Time}
                                                 </Typography>
