@@ -56,6 +56,11 @@ function Profile() {
                 if (docSnap.exists()) {
                     setUID(user.uid);
                     setUserDetails(docSnap.data());
+                    // if (userDetails.photo) {
+                    //     console.log("has photo");
+                    // } else {
+                    //     console.log("does not have photo");
+                    // }
                     // console.log(docSnap.data());
 
                     const journalRef = collection(db, "Journal");
@@ -183,13 +188,14 @@ function Profile() {
             {loggedIn ? (userDetails ? (
                 <>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
+                        {userDetails.photo && (
                         <img
                             src={userDetails.photo}
                             width={'10%'}
                             style={{ borderRadius: '50%',
                                 border: '5px solid white',
                             }}
-                        />
+                        />)}
                     </div>
                     <br/>
                     <h3 style={{fontWeight: 'bold', top: '120px'}}>Welcome {userDetails.firstName}</h3>
