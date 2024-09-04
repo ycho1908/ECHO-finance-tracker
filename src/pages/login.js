@@ -1,5 +1,5 @@
 import './userAuth.css';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../components/firebase';
 import { toast } from 'react-toastify';
@@ -55,9 +55,25 @@ function Login() {
         } catch (error) {
             console.log(error.message);
 
-            toast.error(error.message, {
-                position: "botton-center",
-            });
+            if (error.code === 'auth/too-many-requests') {
+                // if there are too many requests
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    toast.info("Due to numerous failed login attempts, a password reset email has been sent.", {
+                        position: 'bottom-center',
+                    });
+                } catch (emailError) {
+                    // if there is an error in sending the password reset email
+                    console.error("Error in sending password reset email: ", emailError);
+                    toast.error("Error in sending password reset email. Please try againn later.", {
+                        position: 'bottom-center',
+                    });
+                }
+            } else {
+                toast.error(error.message, {
+                    position: "botton-center",
+                });
+            }
         }
     }
 
