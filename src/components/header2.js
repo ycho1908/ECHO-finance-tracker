@@ -67,6 +67,7 @@ function NavBar() {
                             // menuVarient="dark"
                             >
                             {loggedIn && (<NavDropdown.Item href="/profile">Profile</NavDropdown.Item>) }
+                            {loggedIn && (<NavDropdown.Item href="/community">Community</NavDropdown.Item>) }
                             <NavDropdown.Item href="/about">About</NavDropdown.Item>
                             <NavDropdown.Item href="/contact">Contact</NavDropdown.Item>
                             <NavDropdown.Divider/>
