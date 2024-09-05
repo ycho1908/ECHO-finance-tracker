@@ -348,20 +348,24 @@ function Profile() {
                         </thead>
                         <tbody>
                         {sortedData.filter((journal) => {
-                            return searchCategory.toLowerCase() === '' ? journal : journal.Category.toLowerCase().includes(searchCategory.toLowerCase());
+                            return searchCategory.toLowerCase() === '' ? journal : (
+                                Array.isArray(journal.Category) ? 
+                                journal.Category.some(cat => cat.toLowerCase().includes(searchCategory.toLowerCase())) :
+                                typeof journal.Category === 'string' && journal.Category.toLowerCase().includes(searchCategory.toLowerCase()));
                         })
                         .filter((journal) => {
-                            return searchDesc.toLowerCase() === '' ? journal : journal.Description.toLowerCase().includes(searchDesc.toLowerCase());
+                            return searchDesc.toLowerCase() === '' ? journal : journal.Description?.toLowerCase().includes(searchDesc.toLowerCase());
                         })
                         .filter((journal) => {
-                            return searchDate.toLowerCase() === '' ? journal : journal.Date.toLowerCase().includes(searchDate);
+                            return searchDate === '' ? journal : journal.Time === searchDate;
                         })
                         .filter((journal) => {
-                            return searchStatus.toLowerCase() === '' ? journal : journal.Status.toLowerCase().includes(searchStatus);
+                            const journalStatus = journal.Public ? "Public" : "Private";
+                            return searchStatus.toLowerCase() === '' ? journal : journalStatus?.toLowerCase().includes(searchStatus.toLowerCase());
                         })
                         .filter((journal) => {
-                            const searchPriceNumber = Number(searchPrice);
-                            return searchPrice === '' ? journal : journal.Price === searchPriceNumber;
+                            const searchPriceNumber = parseFloat(searchPrice);
+                            return searchPrice === '' ? journal : parseFloat(journal.Price) === searchPriceNumber;
                         })
                         .filter((journal) => journal.UID === uid)
                         .map((journal) => (
