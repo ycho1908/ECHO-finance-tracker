@@ -132,6 +132,13 @@ export default function ChatBot() {
 
     const { primary, secondary, accent, text, border } = getThemeColors();
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+
     return (
         <>
         <div>
@@ -165,10 +172,11 @@ export default function ChatBot() {
                     <Stack direction='column' spacing={2} flexGrow={1} overflow='auto'>
                     {
                         history.map((msg, index) => (
-                            <Box key={index} display={'flex'} justifyContent={msg.role === 'bot' ? 'flex-start' : 'flex-end'}>
-                                <Box bgcolor={msg.role === 'bot' ? 'primary.main' : 'secondary.main'} color={'white'} borderRadius={7} p={2} maxWidth='75%'>
+                            <Box key={index} display={'flex'} justifyContent={msg.role === 'bot' ? 'flex-start' : 'flex-end'} mb={1}>
+                                <Box bgcolor={msg.role === 'bot' ? 'primary.main' : 'secondary.main'} color={'white'} borderRadius={7} p={2} maxWidth='75%' textAlign= {msg.role === 'bot' ? 'left' : 'right'}>
                                     <div>{msg.text}</div>
                                     <div style={{ fontSize: '0.75rem', marginTop: '0.5rem', textAlign:msg.role === 'bot' ? 'left' : 'right'}}>
+                                        <br/>
                                         {new Date(msg.timestamp).toLocaleTimeString()}
                                     </div>
                                 </Box>
@@ -195,6 +203,7 @@ export default function ChatBot() {
                                 backgroundColor: 'background.paper',
                                 borderRadius: 5,
                             }}
+                            onKeyDown={handleEnterPress}
                         />
                         <Button variant='contained' onClick={handleSendMessage}>Send</Button>
                     </Stack>
