@@ -4,6 +4,7 @@ import { auth, db } from "../components/firebase";
 import { doc, getDoc, getDocs, collection, query, where, updateDoc } from "@firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import { Analytics } from '@vercel/analytics/react';
 
 function Settings() {
     // to fetch whether the user is logged in or not
@@ -183,6 +184,7 @@ function Settings() {
             <div style={{ position: 'absolute', bottom: '20px', right: '20px'}}>
                 <ContactSupportIcon sx={{ color: 'white', fontSize: '50px'}} onClick={() => navigate('/chatbot')}/>
             </div>
+            <Analytics/>
         </div>
     );
 }

@@ -5,6 +5,7 @@ import { auth, db } from '../components/firebase';
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { Navigate } from 'react-router';
+import { Analytics } from '@vercel/analytics/react';
 
 function Register() {
     const [first, setFirstName] = useState('');
@@ -129,6 +130,7 @@ function Register() {
             <Navigate to = "/profile"/>
             // navigate("/profile") // works, but causes an error "Cannot update a component (BrowserRouter)"
         )}
+        <Analytics/>
         </div>
     )
 }

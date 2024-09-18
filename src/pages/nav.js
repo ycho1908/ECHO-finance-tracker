@@ -4,6 +4,7 @@ import { auth, db } from '../components/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function Nav() {
     // to prevent already logged in user to access login page
@@ -60,6 +61,7 @@ export default function Nav() {
             <div style={{ position: 'absolute', bottom: '20px', right: '20px'}}>
                 <ContactSupportIcon sx={{ color: 'white', fontSize: '50px'}} onClick={() => navigate('/chatbot')}/>
             </div>
+            <Analytics/>
         </div>
     );
 }

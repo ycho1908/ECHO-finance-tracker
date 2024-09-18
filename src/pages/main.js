@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import Spline from '@splinetool/react-spline';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function Main() {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ export default function Main() {
     return (
         <div className="spline-container" onClick={handleScreenClick}>
             <Spline scene="https://prod.spline.design/3eAMxAFtIJxgGAv1/scene.splinecode" />
+        <Analytics/>
         </div>
     );
 }

@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from 'react-router';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { Box, Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
 import { Container } from 'react-bootstrap';
+import { Analytics } from '@vercel/analytics/react';
 
 
 function Community() {
@@ -168,6 +169,7 @@ function Community() {
     <div style={{ position: 'absolute', bottom: '20px', right: '20px'}}>
         <ContactSupportIcon sx={{ color: 'white', fontSize: '50px'}} onClick={() => navigate('/chatbot')}/>
     </div>
+    <Analytics/>
     </>
     );
 }

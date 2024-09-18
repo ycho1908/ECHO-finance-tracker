@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { Box, CircularProgress, TextField } from "@mui/material";
+import { Analytics } from "@vercel/analytics/react";
 import { useEffect, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 
@@ -210,6 +211,7 @@ export default function ChatBot() {
                 </Box>
             </Stack>
         </Box>
+        <Analytics/>
         </>
     );
 }

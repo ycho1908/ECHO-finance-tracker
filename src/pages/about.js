@@ -2,6 +2,8 @@ import '../App.css';
 import React from 'react';
 import { Accordian, AccordianItem } from "../components/accordian";
 import Spline from '@splinetool/react-spline';
+import { Analytics } from "@vercel/analytics/react";
+
 
 function About() {
   return (
@@ -44,6 +46,7 @@ function About() {
       <br/>
       <br/>
       <p style={{padding: '0 250px'}}>Have any other questions? Feel free to reach out to me at: <a href="mailto:yehyeoncho@gmail.com" style={{ color: 'white'}}>yehyeoncho@gmail.com</a></p>
+      <Analytics/>
       </div>
   );
 }

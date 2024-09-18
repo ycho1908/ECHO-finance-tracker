@@ -16,6 +16,7 @@ import Nav from './pages/nav';
 import Settings from './pages/settings';
 import Community from './pages/community';
 import ChatBot from './pages/chatbot';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -41,6 +42,7 @@ function App() {
         <Route path="/about" element={<About/>}/>
       </Routes>
       {!isPageWOStyle && <ToastContainer />}
+      <Analytics/>
     </div>
   );
 }

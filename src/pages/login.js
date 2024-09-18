@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import SignInWithGoogle from '../components/googleSignIn';
 import { doc, getDoc } from '@firebase/firestore';
 import { Navigate, useNavigate } from 'react-router';
+import { Analytics } from '@vercel/analytics/react';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -119,6 +120,7 @@ function Login() {
             <Navigate to = "/profile"/>
             // navigate("/profile") // works, but causes an error "Cannot update a component (BrowserRouter)"
         )}
+        <Analytics/>
         </div>
     )
 }

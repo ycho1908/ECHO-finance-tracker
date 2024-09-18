@@ -4,6 +4,7 @@ import { auth, db } from "../components/firebase";
 import { doc, getDoc, getDocs, collection, addDoc, query, where, updateDoc, deleteDoc } from "@firebase/firestore";
 import { Navigate, useNavigate } from 'react-router';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import { Analytics } from '@vercel/analytics/react';
 
 
 function Profile() {
@@ -461,6 +462,7 @@ function Profile() {
             <div style={{ position: 'absolute', bottom: '20px', right: '20px'}}>
                 <ContactSupportIcon sx={{ color: 'white', fontSize: '50px'}} onClick={() => navigate('/chatbot')}/>
             </div>
+            <Analytics/>
         </div>
     );
 }
