@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react';
 function Contact() {
   return (
     <div>
-      <Spline scene="https://prod.spline.design/fg-Sy3mBniEBiZVL/scene.splinecode" />
+      <Spline scene="https://prod.spline.design/KNijf-uaLNcWTPSl/scene.splinecode" />
       <Analytics/>
     </div>
   );
