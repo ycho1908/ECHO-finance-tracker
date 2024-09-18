@@ -11,7 +11,7 @@ function Settings() {
 
     // for user data
     const [ userDetails, setUserDetails ] = useState(null);
-    const [ loggedIn ,setLoggedIn ] = useState(true);
+    // const [ loggedIn ,setLoggedIn ] = useState(true);
     const [ first, setFirst ] = useState("");
     const [ last, setLast ] = useState("");
 
@@ -45,12 +45,12 @@ function Settings() {
                 }
                 else {
                     console.log("User is not logged in");
-                    setLoggedIn(false);
+                    // setLoggedIn(false);
                 }
             }
             else {
                 console.log("User is not logged in");
-                setLoggedIn(false);
+                // setLoggedIn(false);
             }
         });
     };

@@ -5,7 +5,7 @@ import { auth, db } from '../components/firebase';
 import { toast } from 'react-toastify';
 import SignInWithGoogle from '../components/googleSignIn';
 import { doc, getDoc } from '@firebase/firestore';
-import { Navigate, useNavigate } from 'react-router';
+import { Navigate } from 'react-router';
 import { Analytics } from '@vercel/analytics/react';
 
 function Login() {

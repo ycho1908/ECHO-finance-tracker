@@ -1,7 +1,7 @@
 import '../App.css';
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
-import { doc, getDoc, getDocs, collection, addDoc, query, where, updateDoc, deleteDoc } from "@firebase/firestore";
+import { doc, getDoc, getDocs, collection, addDoc, query, where } from "@firebase/firestore";
 import { Navigate, useNavigate } from 'react-router';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { Analytics } from '@vercel/analytics/react';

@@ -1,8 +1,8 @@
 import '../App.css';
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
-import { doc, getDoc, getDocs, collection, addDoc, query, where, updateDoc, deleteDoc } from "@firebase/firestore";
-import { Navigate, useNavigate } from 'react-router';
+import { doc, getDoc, getDocs, collection, query, where } from "@firebase/firestore";
+import { useNavigate } from 'react-router';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { Box, Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
 import { Container } from 'react-bootstrap';
@@ -16,16 +16,10 @@ function Community() {
 
     // for user data
     const [ userDetails, setUserDetails ] = useState(null);
-    const [ loggedIn ,setLoggedIn ] = useState(true);
+    const [ loggedIn, setLoggedIn ] = useState(true);
 
     // for journal data
-    const [ date, setDate ] = useState("");
-    const [ description, setDescription ] = useState("");
-    const [ journalLog, setJournalLog ] = useState([]);
     const [ uid, setUID ] = useState("");
-    const [ isPublic , setIsPublic ] = useState(false);
-    const [ price , setPrice ] = useState(0);
-    const [ categories , setCategories ] = useState("");
 
     const [publicLogs, setPublicLogs] = useState([]);
     const [flipped, setFlipped] = useState({})
